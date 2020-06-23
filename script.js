@@ -12,7 +12,7 @@ var questionsList = [{
     correct:1
 }, {
     q:'What is typeof of null?',
-    a: ['indefined','NaN', 'object'],
+    a: ['undefined','NaN', 'object'],
     correct: 2
 }, {
     q:'What is the value of variable carName? var carName;',
@@ -25,26 +25,51 @@ var introElem = document.querySelector("#intro");
 var mainElem = document.querySelector("#main");
 
 
+var currentQuestionNum = 0;
 
-startButton.addEventListener('click', function() {
-    introElem.remove();
+function onSelectOption(event){
+  var userChoice = parseInt(event.target.getAttribute("data-option"), 10);
+  var question = questionsList[currentQuestionNum];
+  if(userChoice === question.correct) {
+      alert("Correct!");
+  } else{
+      alert("Wrong!");
+  }
+  currentQuestionNum++;
+
+  showQuestion();
+
+}
+
+function showQuestion(){
     var questionDiv = document.createElement("div");
-    var question = questionsList[0];
+    var question = questionsList[currentQuestionNum];
     var questionTitle = document.createElement("h3");
     questionTitle.innerText = question.q;
     questionDiv.append(questionTitle);
+    mainElem.innerHTML= "";
     mainElem.append(questionDiv);
     var answerList = document.createElement("ol");
    
     for(let i = 0; i < question.a.length; i++) {
         var answer = document.createElement("li");
-        answer.innerHTML = `<button type="button" class="btn btn-primary option" ></button>`
-        answer.querySelector("button").innerText = question.a[i];
+        answer.innerHTML = `<button type="button" class="btn btn-primary option" data-option="${i}" ></button>`
+        var choiceButton = answer.querySelector("button");
+        choiceButton.innerText = question.a[i];
         answerList.append(answer);
+        choiceButton.addEventListener('click', onSelectOption);
     }
-        questionDiv.append(answerList);
+    
+    questionDiv.append(answerList);
 
 
+
+}
+
+startButton.addEventListener('click', function() {
+    introElem.remove();
+    showQuestion();
+    
 
 });
     
