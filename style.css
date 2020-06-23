@@ -1,0 +1,11 @@
+    .intro {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .option {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
