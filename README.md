@@ -27,7 +27,7 @@ THEN I can save my initials and score
 ![](./img/multipleChoice.png)
 
 ### When the quiz is completed, "All done!" screen appears with the player score
-![](./img/alldone.png)
+![](./img/allDone.png)
 
 ### Player can save their score and view it on the View Highscore page
 ![](./img/highscores.png)
