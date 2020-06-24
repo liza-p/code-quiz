@@ -23,9 +23,35 @@ var questionsList = [{
 var startButton = document.querySelector("#start");
 var introElem = document.querySelector("#intro");
 var mainElem = document.querySelector("#main");
+var timer = document.querySelector("#timer");
 
 
 var currentQuestionNum = 0;
+
+function startTimer(duration, display) {
+    var time = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(time / 60, 10);
+        seconds = parseInt(time % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        time--;
+        if (time < 0) {
+            time = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    
+    // startTimer(fiveMinutes, timer);
+};
+
+
 
 function onSelectOption(event){
   var userChoice = parseInt(event.target.getAttribute("data-option"), 10);
@@ -69,6 +95,9 @@ function showQuestion(){
 startButton.addEventListener('click', function() {
     introElem.remove();
     showQuestion();
+    var fiveMinutes = 60 * 5;
+    startTimer(fiveMinutes, timer);
+    
     
 
 });
