@@ -24,15 +24,18 @@ var startButton = document.querySelector("#start");
 var introElem = document.querySelector("#intro");
 var mainElem = document.querySelector("#main");
 var timer = document.querySelector("#timer");
+var score = 0;
+var time ;
+var countdown;
 
 
 var currentQuestionNum = 0;
 
 function startTimer(duration, display) {
-    var time = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(time / 60, 10);
-        seconds = parseInt(time % 60, 10);
+    time = duration;
+    countdown = setInterval(function () {
+        var minutes = parseInt(time / 60, 10);
+        var seconds = parseInt(time % 60, 10);
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
@@ -58,14 +61,17 @@ function onSelectOption(event){
   var question = questionsList[currentQuestionNum];
   if(userChoice === question.correct) {
       alert("Correct!");
+      score = score + 10;
   } else{
       alert("Wrong!");
   }
   if(currentQuestionNum === questionsList.length-1){
+      clearInterval(countdown);
      showFinalResults();
   }else{
     currentQuestionNum++;
     showQuestion();
+    time=time - 10;
   }
   
 
@@ -76,17 +82,30 @@ function showFinalResults(){
     var resultTitle = document.createElement("h3");
     resultTitle.innerText = "All done!";
     var resultParagraph = document.createElement("p");
-    resultParagraph.innerText = "Your final score is ";
+    resultParagraph.innerText = "Your final score is " + score + "/50";
     var initialsInput = document.createElement("input");
     initialsInput.placeholder = "Enter Initials here";
     resultsDiv.append(resultTitle);
     resultsDiv.append(resultParagraph);
     resultsDiv.append(initialsInput);
     mainElem.append(resultsDiv);
-    var submitButton = document.createElement("button");
-    submitButton.innerHTML= `<button type="button" class="btn btn-primary option">Submit</button>`
-    resultsDiv.append(submitButton);
-    submitButton.addEventListener('click');
+    var buttonContainer = document.createElement("span");
+    buttonContainer.innerHTML= `<button type="button" class="btn btn-primary btn-sm ml-1">Submit</button>`
+    resultsDiv.append(buttonContainer);
+    var submitButton = buttonContainer.querySelector('button');
+    submitButton.addEventListener('click', function(){
+        var highscores = JSON.parse(localStorage.getItem('highscores'));
+        if (highscores === null) {
+            highscores = [];
+        }
+        var result = {
+            name: initialsInput.value,
+            score: score
+        };
+        highscores.push(result);
+        localStorage.setItem('highscores', JSON.stringify(highscores));
+        location.href = 'highscores.html';
+    });
 
 
 }
@@ -119,8 +138,8 @@ function showQuestion(){
 startButton.addEventListener('click', function() {
     introElem.remove();
     showQuestion();
-    var fiveMinutes = 60 * 5;
-    startTimer(fiveMinutes, timer);
+    var twoMinutes = 60 * 2;
+    startTimer(twoMinutes, timer);
     
     
 
