@@ -61,9 +61,33 @@ function onSelectOption(event){
   } else{
       alert("Wrong!");
   }
-  currentQuestionNum++;
+  if(currentQuestionNum === questionsList.length-1){
+     showFinalResults();
+  }else{
+    currentQuestionNum++;
+    showQuestion();
+  }
+  
 
-  showQuestion();
+}
+function showFinalResults(){
+    mainElem.innerHTML= "";
+    var resultsDiv = document.createElement("div");
+    var resultTitle = document.createElement("h3");
+    resultTitle.innerText = "All done!";
+    var resultParagraph = document.createElement("p");
+    resultParagraph.innerText = "Your final score is ";
+    var initialsInput = document.createElement("input");
+    initialsInput.placeholder = "Enter Initials here";
+    resultsDiv.append(resultTitle);
+    resultsDiv.append(resultParagraph);
+    resultsDiv.append(initialsInput);
+    mainElem.append(resultsDiv);
+    var submitButton = document.createElement("button");
+    submitButton.innerHTML= `<button type="button" class="btn btn-primary option">Submit</button>`
+    resultsDiv.append(submitButton);
+    submitButton.addEventListener('click');
+
 
 }
 
